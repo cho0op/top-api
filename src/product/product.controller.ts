@@ -27,5 +27,5 @@ export class ProductController {
 
   @HttpCode(200)
   @Post()
-  async find(@Body dto: FindProductDto) {}
+  async find(@Body() dto: FindProductDto) {}
 }
