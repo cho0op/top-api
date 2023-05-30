@@ -22,7 +22,6 @@ const invalidLoginDto: any = {
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
-  let createdId: string;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
