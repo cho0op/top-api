@@ -1,6 +1,9 @@
-import { TopLevelCategory } from '../../top-page/top-page.model';
+import { IsNumber, IsString } from 'class-validator';
 
 export class FindProductDto {
-  firstCategory: TopLevelCategory;
+  @IsString()
+  category: string;
+
+  @IsNumber()
   limit: number;
 }
