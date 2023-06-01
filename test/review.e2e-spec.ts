@@ -4,6 +4,7 @@ import { disconnect, Types } from 'mongoose';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { AuthDto } from '../src/auth/dto/auth.dto';
+import { INVALID_ID_ERROR } from '../src/pipes/pipes.constants';
 import { CreateReviewDto } from '../src/review/dto/create-review.dto';
 import { REVIEW_NOT_FOUND } from '../src/review/review.constants';
 
@@ -23,7 +24,7 @@ const loginDto: AuthDto = {
   password: '111111',
 };
 
-describe('AppController (e2e)', () => {
+describe('ProductController (e2e)', () => {
   let app: INestApplication;
   let createdId: string;
   let accessToken: string;
@@ -83,6 +84,15 @@ describe('AppController (e2e)', () => {
       .delete(`/review/${createdId}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(200);
+  });
+
+  it('/review/:id (DELETE) - invalid id', async () => {
+    const { body } = await request(app.getHttpServer())
+      .delete(`/review/${createdId + '123'}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(400);
+
+    expect(body.message).toBe(INVALID_ID_ERROR);
   });
 
   it('/review/:id (DELETE) - fail', async () => {
