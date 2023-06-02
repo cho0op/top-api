@@ -32,6 +32,8 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
+  it('auth/register (POST) - success', async () => {});
+
   it('/auth/login (POST) - success', async () => {
     const { body }: request.Response = await request(app.getHttpServer())
       .post('/auth/login')
