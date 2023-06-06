@@ -73,6 +73,15 @@ describe('TopPageController (e2e)', () => {
     expect(createdId).toBeDefined();
   });
 
+  it('/top-page/create (POST) - unauthorized', async () => {
+    const { body }: request.Response = await request(app.getHttpServer())
+      .post('/top-page/create')
+      .send(topPageTestDto)
+      .expect(401);
+
+    expect(body.message).toBe('Unauthorized');
+  });
+
   it('/top-page/find (POST) - success', async () => {
     const { body }: request.Response = await request(app.getHttpServer())
       .post('/top-page/find')
@@ -120,10 +129,27 @@ describe('TopPageController (e2e)', () => {
     expect(body.seoText).toBe('new seo');
   });
 
+  it('/top-page/:id (PATCH) - unauthorized', async () => {
+    const { body }: request.Response = await request(app.getHttpServer())
+      .patch(`/top-page/${createdId}`)
+      .send({ ...topPageTestDto, seoText: 'new seo' })
+      .expect(401);
+
+    expect(body.message).toBe('Unauthorized');
+  });
+
   it('/top-page/:id (DELETE) - success', async () => {
     await request(app.getHttpServer())
       .delete(`/top-page/${createdId}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(200);
+  });
+
+  it('/top-page/:id (DELETE) - unauthorized', async () => {
+    const { body }: request.Response = await request(app.getHttpServer())
+      .delete(`/top-page/${createdId}`)
+      .expect(401);
+
+    expect(body.message).toBe('Unauthorized');
   });
 });
