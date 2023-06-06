@@ -8,9 +8,14 @@ import { AppModule } from '../src/app.module';
 
 import { CreateTopPageDto } from '../src/top-page/dto/create-top-page.dto';
 
+import { AuthDto } from '../src/auth/dto/auth.dto';
 import { FindTopPageDto } from '../src/top-page/dto/find-top-page.dto';
 import { TOP_PAGE_NOT_FOUND_ERROR } from '../src/top-page/top-page.constants';
 
+const loginDto: AuthDto = {
+  login: 'asdasd12@gmail.com',
+  password: '111111',
+};
 const alias = 'book';
 const topPageTestDto: CreateTopPageDto = {
   firstCategory: 1,
@@ -40,6 +45,7 @@ const findEmptyTopPageDto: FindTopPageDto = {
 describe('TopPageController (e2e)', () => {
   let app: INestApplication;
   let createdId: string;
+  let accessToken: string;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -48,12 +54,19 @@ describe('TopPageController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+
+    const { body } = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send(loginDto);
+
+    accessToken = body.access_token;
   });
 
   it('/top-page/create (POST) - success', async () => {
     const { body }: request.Response = await request(app.getHttpServer())
       .post('/top-page/create')
       .send(topPageTestDto)
+      .set('Authorization', `Bearer ${accessToken}`)
       .expect(201);
 
     createdId = body._id;
@@ -64,6 +77,7 @@ describe('TopPageController (e2e)', () => {
     const { body }: request.Response = await request(app.getHttpServer())
       .post('/top-page/find')
       .send(findTopPageDto)
+      .set('Authorization', `Bearer ${accessToken}`)
       .expect(200);
 
     expect(body).toBeDefined();
@@ -100,6 +114,7 @@ describe('TopPageController (e2e)', () => {
     const { body }: request.Response = await request(app.getHttpServer())
       .patch(`/top-page/${createdId}`)
       .send({ ...topPageTestDto, seoText: 'new seo' })
+      .set('Authorization', `Bearer ${accessToken}`)
       .expect(200);
 
     expect(body.seoText).toBe('new seo');
@@ -108,6 +123,7 @@ describe('TopPageController (e2e)', () => {
   it('/top-page/:id (DELETE) - success', async () => {
     await request(app.getHttpServer())
       .delete(`/top-page/${createdId}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .expect(200);
   });
 });
