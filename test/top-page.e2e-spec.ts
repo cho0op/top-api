@@ -17,10 +17,11 @@ const loginDto: AuthDto = {
   password: '111111',
 };
 const alias = 'book';
+const title = 'books';
 const topPageTestDto: CreateTopPageDto = {
   firstCategory: 1,
   secondCategory: 'test sec cat',
-  title: 'Books',
+  title: title,
   category: 'book',
   alias: alias,
   advantages: [
@@ -136,6 +137,25 @@ describe('TopPageController (e2e)', () => {
       .expect(401);
 
     expect(body.message).toBe('Unauthorized');
+  });
+
+  it('/top-page/textSearch/:text (GET) - success', async () => {
+    const { body }: request.Response = await request(app.getHttpServer())
+      .get(`/top-page/textSearch/${title}`)
+      .expect(200);
+    console.log(body);
+
+    expect(body).toHaveLength(1);
+    expect(body[0].title).toBe(title);
+  });
+
+  it('/top-page/textSearch/:text (GET) - empty response', async () => {
+    const { body }: request.Response = await request(app.getHttpServer())
+      .get(`/top-page/textSearch/wrongTitle`)
+      .expect(200);
+    console.log(body);
+
+    expect(body).toHaveLength(0);
   });
 
   it('/top-page/:id (DELETE) - success', async () => {

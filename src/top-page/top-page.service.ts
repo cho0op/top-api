@@ -13,33 +13,37 @@ export class TopPageService {
 
   async create(dto: CreateTopPageDto) {
     try {
-      return await this.topPageModel.create(dto);
+      return this.topPageModel.create(dto);
     } catch (error) {
       throw new BadRequestException('Not Valid Data');
     }
   }
 
   async findByCategory(firstCategory: TopLevelCategory) {
-    return await this.topPageModel
+    return this.topPageModel
       .find({ firstCategory }, { alias: 1, secondCategory: 1, title: 1 })
       .exec();
   }
 
   async findById(id: string) {
-    return await this.topPageModel.findById(id).exec();
+    return this.topPageModel.findById(id).exec();
   }
 
   async findByAlias(alias: string) {
-    return await this.topPageModel.findOne({ alias }).exec();
+    return this.topPageModel.findOne({ alias }).exec();
   }
 
   async deleteById(id: string) {
-    return await this.topPageModel.findByIdAndDelete(id).exec();
+    return this.topPageModel.findByIdAndDelete(id).exec();
   }
 
   async updateById(id: string, dto: CreateTopPageDto) {
-    return await this.topPageModel
-      .findByIdAndUpdate(id, dto, { new: true })
+    return this.topPageModel.findByIdAndUpdate(id, dto, { new: true }).exec();
+  }
+
+  async findByText(text: string) {
+    return this.topPageModel
+      .find({ $text: { $search: text, $caseSensitive: false } })
       .exec();
   }
 }
