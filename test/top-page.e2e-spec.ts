@@ -87,10 +87,8 @@ describe('TopPageController (e2e)', () => {
     const { body }: request.Response = await request(app.getHttpServer())
       .post('/top-page/find')
       .send(findTopPageDto)
-      .set('Authorization', `Bearer ${accessToken}`)
       .expect(200);
 
-    expect(body).toBeDefined();
     expect(body).toHaveLength(1);
     expect(body[0].alias).toBe(alias);
   });
@@ -143,7 +141,6 @@ describe('TopPageController (e2e)', () => {
     const { body }: request.Response = await request(app.getHttpServer())
       .get(`/top-page/textSearch/${title}`)
       .expect(200);
-    console.log(body);
 
     expect(body).toHaveLength(1);
     expect(body[0].title).toBe(title);
@@ -153,7 +150,6 @@ describe('TopPageController (e2e)', () => {
     const { body }: request.Response = await request(app.getHttpServer())
       .get(`/top-page/textSearch/wrongTitle`)
       .expect(200);
-    console.log(body);
 
     expect(body).toHaveLength(0);
   });
