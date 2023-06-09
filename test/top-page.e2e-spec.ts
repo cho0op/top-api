@@ -88,7 +88,7 @@ describe('TopPageController (e2e)', () => {
       .post('/top-page/find')
       .send(findTopPageDto)
       .expect(200);
-    console.log('body', body);
+
     expect(body).toHaveLength(1);
     expect(body[0].pages).toHaveLength(1);
   });
