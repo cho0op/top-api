@@ -26,6 +26,7 @@
     "@nestjs/jwt": "^10.0.3",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/serve-static": "^3.0.1",
     "@typegoose/typegoose": "^11.2.0",
     "@types/sharp": "^0.32.0",
     "app-root-path": "^3.1.0",
