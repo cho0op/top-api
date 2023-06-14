@@ -54,6 +54,13 @@ describe('ReviewController (e2e)', () => {
     expect(createdId).toBeDefined();
   });
 
+  it('/review/notify (POST) - success', async () => {
+    await request(app.getHttpServer())
+      .post('/review/notify')
+      .send(testDto)
+      .expect(201);
+  });
+
   it('/review/create (POST) - fail validation', async () => {
     const { body }: request.Response = await request(app.getHttpServer())
       .post('/review/create')
