@@ -12,6 +12,7 @@ import { ReviewModule } from './review/review.module';
 import { SitemapModule } from './sitemap/sitemap.module';
 import { TelegramModule } from './telegram/telegram.module';
 import { TopPageModule } from './top-page/top-page.module';
+import { GithubModule } from './github/github.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { TopPageModule } from './top-page/top-page.module';
       injects: [ConfigService],
       useFactory: getTelegramConfig,
     }),
+    GithubModule,
   ],
   controllers: [AppController],
   providers: [AppService],
