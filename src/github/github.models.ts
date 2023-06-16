@@ -1,14 +1,6 @@
 import { prop } from '@typegoose/typegoose';
 import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 
-export interface GithubRepositoriesResponse {
-  id: number;
-  name: string;
-  owner: RepositoryOwner;
-  openIssues: number;
-  fetchedDate: Date;
-}
-
 export class RepositoryOwner {
   @prop()
   name: string;
