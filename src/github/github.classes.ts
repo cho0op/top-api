@@ -1,16 +1,22 @@
-import { RepositoryOwner } from './github.models';
-
-export interface GithubRepositoriesResponse {
+export class GithubRepositoriesResponse {
   id: number;
   name: string;
-  owner: RepositoryOwner;
+  owner: {
+    login: string;
+    id: number;
+  };
   open_issues: number;
 }
 
-export interface GithubRepositoryData {
+export class GithubRepositoryOwner {
   githubId: number;
   name: string;
-  owner: RepositoryOwner;
+}
+
+export class GithubRepositoryData {
+  githubId: number;
+  name: string;
+  owner: GithubRepositoryOwner;
   openIssues: number;
   fetchedDate: Date;
 }

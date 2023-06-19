@@ -6,6 +6,6 @@ export class GithubController {
   constructor(private readonly githubService: GithubService) {}
 
   @Get('data') async getData() {
-    const data = await this.githubService.getData();
+    return this.githubService.updateRepositoriesData();
   }
 }

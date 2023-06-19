@@ -12,13 +12,13 @@ export class RepositoryOwner {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface GithubRepositoryModel extends Base {}
 export class GithubRepositoryModel extends TimeStamps {
-  @prop()
+  @prop({ unique: true })
   githubId: number;
 
   @prop()
   name: string;
 
-  @prop({ type: () => [RepositoryOwner] })
+  @prop({ type: () => [RepositoryOwner], _id: false })
   owner: RepositoryOwner;
 
   @prop()
