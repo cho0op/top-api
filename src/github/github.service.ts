@@ -1,9 +1,10 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { API_URL } from './github.contants';
 
 import { ModelType } from '@typegoose/typegoose/lib/types';
+import { AxiosError } from 'axios';
 import { InjectModel } from 'nestjs-typegoose';
 import {
   GithubRepositoriesResponse,
@@ -51,10 +52,11 @@ export class GithubService {
       const response = await firstValueFrom(
         this.httpService.get<GithubRepositoriesResponse[]>(url),
       );
-
       return this.parseRepositoriesData(response.data);
     } catch (error) {
-      Logger.error(error);
+      if (error instanceof AxiosError) {
+        throw new HttpException(error.response.data, error.response.status);
+      }
     }
   }
 
