@@ -22,15 +22,6 @@ export class GithubService {
   async findRepository(githubId: number): Promise<GithubRepositoryModel> {
     return await this.githubRepositoryModel.findOne({ githubId }).exec();
   }
-  async updateRepositoriesData() {
-    const updatedData = await this.getRepositoriesData();
-    const updatedRepositories = [];
-    for (const repository of updatedData) {
-      const updatedRepository = await this.updateOrCreateRepository(repository);
-      updatedRepositories.push(updatedRepository);
-    }
-    return updatedRepositories;
-  }
 
   async updateOrCreateRepository(repository: GithubRepositoryData) {
     const { githubId } = repository;
